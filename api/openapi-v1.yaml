@@ -1,0 +1,546 @@
+openapi: 3.0.3
+info:
+  title: API - Sistema de Seleção de Monitoria (UCSal)
+  version: "1.0.0"
+  description: API REST para inscrição, seleção, gestão e certificação de monitorias
+servers:
+  - url: https://api.ucsal.edu.br/api/v1
+    description: Produção (exemplo)
+  - url: http://localhost:8080/api/v1
+    description: Local
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        role:
+          type: string
+          enum: [ROLE_STUDENT, ROLE_PROFESSOR, ROLE_COORDINATOR, ROLE_ADMIN]
+        active:
+          type: boolean
+      required: [id, name, email, role]
+    Course:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        code:
+          type: string
+        name:
+          type: string
+      required: [id, code, name]
+    Discipline:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        code:
+          type: string
+        name:
+          type: string
+        courseId:
+          type: string
+          format: uuid
+        shift:
+          type: string
+          enum: [MORNING, AFTERNOON, EVENING]
+      required: [id, code, name, courseId, shift]
+    Enrollment:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        studentId:
+          type: string
+          format: uuid
+        disciplineId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [PENDING, APPROVED, REJECTED]
+        createdAt:
+          type: string
+          format: date-time
+        applicationData:
+          type: object
+      required: [id, studentId, disciplineId, status, createdAt]
+    Evaluation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        enrollmentId:
+          type: string
+          format: uuid
+        professorId:
+          type: string
+          format: uuid
+        score:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 10
+        comment:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required: [id, enrollmentId, professorId, score, createdAt]
+    Monitor:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        disciplineId:
+          type: string
+          format: uuid
+        shift:
+          type: string
+          enum: [MORNING, AFTERNOON, EVENING]
+        status:
+          type: string
+          enum: [ACTIVE, INACTIVE]
+      required: [id, userId, disciplineId, shift, status]
+    TimeEntry:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        monitorId:
+          type: string
+          format: uuid
+        date:
+          type: string
+          format: date
+        hours:
+          type: number
+          format: float
+        description:
+          type: string
+        validated:
+          type: boolean
+      required: [id, monitorId, date, hours]
+    Certificate:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        monitorId:
+          type: string
+          format: uuid
+        periodStart:
+          type: string
+          format: date
+        periodEnd:
+          type: string
+          format: date
+        totalHours:
+          type: number
+          format: float
+        fileUrl:
+          type: string
+          format: uri
+        issuedAt:
+          type: string
+          format: date-time
+      required: [id, monitorId, periodStart, periodEnd, totalHours, issuedAt]
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+paths:
+  /auth/login:
+    post:
+      summary: Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+              required: [email, password]
+      responses:
+        "200":
+          description: Token obtido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                  refreshToken:
+                    type: string
+        "401":
+          description: Credenciais inválidas
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /auth/refresh:
+    post:
+      summary: Refresh token
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refreshToken:
+                  type: string
+      responses:
+        "200":
+          description: Token renovado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+        "401":
+          description: Token inválido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /users/me:
+    get:
+      summary: Obter dados do usuário autenticado
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Usuário
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+  /enrollments:
+    post:
+      summary: Criar inscrição
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                disciplineId:
+                  type: string
+                  format: uuid
+                applicationData:
+                  type: object
+              required: [disciplineId]
+      responses:
+        "201":
+          description: Inscrição criada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Enrollment"
+        "400":
+          description: Erro de validação
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    get:
+      summary: Listar inscrições (filtros)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: studentId
+          in: query
+          schema:
+            type: string
+        - name: disciplineId
+          in: query
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Lista de inscrições
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Enrollment"
+  /enrollments/{id}:
+    get:
+      summary: Obter inscrição por id
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Inscrição
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Enrollment"
+        "404":
+          description: Não encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /selection/evaluate:
+    post:
+      summary: Professor avalia uma inscrição
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Evaluation"
+      responses:
+        "201":
+          description: Avaliação registrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Evaluation"
+        "403":
+          description: Sem permissão
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /selection/assign:
+    post:
+      summary: Designar monitor para disciplina
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                enrollmentId:
+                  type: string
+                  format: uuid
+                shift:
+                  type: string
+                  enum: [MORNING, AFTERNOON, EVENING]
+      responses:
+        "200":
+          description: Monitor designado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Monitor"
+  /monitoring/time-entries:
+    post:
+      summary: Registrar horas do monitor
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TimeEntry"
+      responses:
+        "201":
+          description: Registro criado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TimeEntry"
+    get:
+      summary: Listar registros de horas
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: monitorId
+          in: query
+          schema:
+            type: string
+        - name: validated
+          in: query
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: Lista de registros
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TimeEntry"
+  /monitoring/time-entries/{id}:
+    put:
+      summary: Atualizar registro de horas (validar/editar)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TimeEntry"
+      responses:
+        "200":
+          description: Atualizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TimeEntry"
+  /certificates:
+    post:
+      summary: Solicitar geração de certificado (async)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                monitorId:
+                  type: string
+                  format: uuid
+                periodStart:
+                  type: string
+                  format: date
+                periodEnd:
+                  type: string
+                  format: date
+      responses:
+        "202":
+          description: Geração agendada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jobId:
+                    type: string
+  /certificates/{id}:
+    get:
+      summary: Obter certificado
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Certificado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Certificate"
+        "404":
+          description: Não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /reports:
+    get:
+      summary: Gerar relatório de monitorias (on-demand)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: from
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: to
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: courseId
+          in: query
+          schema:
+            type: string
+        - name: disciplineId
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Relatório gerado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  fileUrl:
+                    type: string
+                    format: uri
+        "400":
+          description: Parâmetros inválidos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+security:
+  - bearerAuth: []
