@@ -19,7 +19,11 @@ jobs:
           python-version: "3.11"
 
       - name: Install MkDocs + Material plugins
-        run: pip install mkdocs mkdocs-material mkdocs-material-extensions
+        run: |
+          pip install mkdocs
+          pip install mkdocs-material
+          pip install mkdocs-material-extensions
+          pip install neoteroi-mkdocs-oas
 
       - name: Deploy MkDocs
         run: mkdocs gh-deploy --force
