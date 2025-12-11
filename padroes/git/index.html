@@ -13,10 +13,10 @@
       
       
       
-        <link rel="prev" href="../adr-010/">
+        <link rel="prev" href="../">
       
       
-        <link rel="next" href="../adr-012/">
+        <link rel="next" href="../../arquitetura/overview/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>DDR-011 - Relatórios - Monitoria</title>
+        <title>Fluxo de Git - Monitoria</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#adr-011-relatorios-geracao-sob-demanda-com-cache-temporario" class="md-skip">
+        <a href="#padrao-de-fluxo-de-git" class="md-skip">
           Pular para conteúdo
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              DDR-011 - Relatórios
+              Fluxo de Git
             
           </span>
         </div>
@@ -250,11 +250,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../padroes/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
           
   
   
@@ -329,13 +331,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../adr/" class="md-tabs__link">
           
   
   
@@ -446,28 +446,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
-        
-          
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
@@ -485,7 +488,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -503,7 +506,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../padroes/" class="md-nav__link">
+      <a href="../" class="md-nav__link">
         
   
   
@@ -528,10 +531,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../padroes/git/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fluxo de Git
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -547,6 +577,343 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivo-do-documento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivo do Documento
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#principios-gerais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Princípios Gerais
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estrutura-oficial-de-branches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estrutura Oficial de Branches
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Estrutura Oficial de Branches">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#branches-permanentes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Branches permanentes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#branches-temporarias-ciclo-de-desenvolvimento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Branches temporárias (ciclo de desenvolvimento)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#convencoes-de-nomes-para-branches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Convenções de nomes para branches
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#convencao-de-commits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Convenção de commits
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Convenção de commits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#formato-do-commit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Formato do commit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tipos-de-commits-permitidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tipos de commits permitidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#processo-de-desenvolvimento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Processo de desenvolvimento
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Processo de desenvolvimento">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-criar-uma-branch-a-partir-da-main" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Criar uma branch a partir da main
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-desenvolver-e-commitar-seguindo-o-padrao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Desenvolver e commitar seguindo o padrão
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-abrir-pull-request-pr-para-a-develop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Abrir Pull Request (PR) para a develop
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Abrir Pull Request (PR) para a develop">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quando-qa-encontra-erro-em-develop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quando QA encontra erro em develop
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quando QA encontra erro em develop">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#caso-1-pr-ainda-esta-aberto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Caso 1 - PR ainda está aberto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#caso-2-pr-ja-foi-mergeado-em-develop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Caso 2 — PR já foi mergeado em develop
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-fluxo-de-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Fluxo de Release
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-enviar-release-para-staging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Enviar Release para staging
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Enviar Release para staging">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quando-o-cliente-encontra-erro-em-staging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quando o cliente encontra erro em staging
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-apos-aprovacao-dos-stakeholders-merge-da-release-na-main" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Após aprovação dos stakeholders - merge da Release na main
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hotfix-em-producao-main" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hotfix em Produção (main)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Hotfix em Produção (main)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#deploy-por-ambiente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deploy por ambiente
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tags-e-versionamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags e versionamento
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#boas-praticas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Boas Práticas
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anti-patterns-o-que-evitar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anti-Patterns (o que evitar)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -768,31 +1135,28 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
         
           
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
             
   
   
@@ -810,7 +1174,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             
@@ -828,7 +1192,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
+      <a href="../../adr/" class="md-nav__link">
         
   
   
@@ -856,7 +1220,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../adr-001/" class="md-nav__link">
+      <a href="../../adr/adr-001/" class="md-nav__link">
         
   
   
@@ -884,7 +1248,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../adr-002/" class="md-nav__link">
+      <a href="../../adr/adr-002/" class="md-nav__link">
         
   
   
@@ -912,7 +1276,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../adr-003/" class="md-nav__link">
+      <a href="../../adr/adr-003/" class="md-nav__link">
         
   
   
@@ -940,7 +1304,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../adr-004/" class="md-nav__link">
+      <a href="../../adr/adr-004/" class="md-nav__link">
         
   
   
@@ -968,7 +1332,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../adr-005/" class="md-nav__link">
+      <a href="../../adr/adr-005/" class="md-nav__link">
         
   
   
@@ -996,7 +1360,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../adr-006/" class="md-nav__link">
+      <a href="../../adr/adr-006/" class="md-nav__link">
         
   
   
@@ -1024,7 +1388,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../adr-007/" class="md-nav__link">
+      <a href="../../adr/adr-007/" class="md-nav__link">
         
   
   
@@ -1052,7 +1416,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../adr-008/" class="md-nav__link">
+      <a href="../../adr/adr-008/" class="md-nav__link">
         
   
   
@@ -1080,7 +1444,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../adr-009/" class="md-nav__link">
+      <a href="../../adr/adr-009/" class="md-nav__link">
         
   
   
@@ -1108,7 +1472,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../adr-010/" class="md-nav__link">
+      <a href="../../adr/adr-010/" class="md-nav__link">
         
   
   
@@ -1133,37 +1497,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    DDR-011 - Relatórios
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../adr/adr-011/" class="md-nav__link">
         
   
   
@@ -1179,70 +1516,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Índice">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Índice
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#contexto" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Contexto
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#decisao" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Decisão
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#alternativas-consideradas" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Alternativas consideradas
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#consequencias" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Consequências
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1255,7 +1528,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../adr-012/" class="md-nav__link">
+      <a href="../../adr/adr-012/" class="md-nav__link">
         
   
   
@@ -1283,7 +1556,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../adr-013/" class="md-nav__link">
+      <a href="../../adr/adr-013/" class="md-nav__link">
         
   
   
@@ -1311,7 +1584,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../adr-014/" class="md-nav__link">
+      <a href="../../adr/adr-014/" class="md-nav__link">
         
   
   
@@ -1339,7 +1612,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../adr-015/" class="md-nav__link">
+      <a href="../../adr/adr-015/" class="md-nav__link">
         
   
   
@@ -1367,7 +1640,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../adr-016/" class="md-nav__link">
+      <a href="../../adr/adr-016/" class="md-nav__link">
         
   
   
@@ -1395,7 +1668,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../adr-017/" class="md-nav__link">
+      <a href="../../adr/adr-017/" class="md-nav__link">
         
   
   
@@ -1440,65 +1713,320 @@
 
 
 
-<h1 id="adr-011-relatorios-geracao-sob-demanda-com-cache-temporario">ADR-011 — Relatórios: geração sob demanda com cache temporário</h1>
-<p><strong>Status:</strong> Aprovado</p>
-<h2 id="contexto">Contexto</h2>
-<p>O sistema possui diversos tipos de relatórios, como:</p>
+<h1 id="padrao-de-fluxo-de-git">Padrão de Fluxo de Git</h1>
+<h2 id="objetivo-do-documento">Objetivo do Documento</h2>
+<p>Definir um fluxo único, previsível e simples para uso do Git em todos os repositórios da equipe, garantindo:</p>
 <ul>
-<li>Inscrições por período</li>
-<li>Participação em monitorias</li>
-<li>Carga horária cumprida</li>
-<li>Certificados emitidos</li>
-<li>Indicadores por curso, turma e disciplina</li>
-</ul>
-<p>Esses relatórios:</p>
-<ul>
-<li>Variam de acordo com filtros dinâmicos (período, curso, turma, status)</li>
-<li>São utilizados principalmente para <strong>análise administrativa</strong></li>
-<li>Nem todos precisam ser armazenados permanentemente</li>
-</ul>
-<p>Além disso, o projeto deve evitar:</p>
-<ul>
-<li>Processamentos desnecessários em background</li>
-<li>Crescimento excessivo de tabelas apenas para relatórios</li>
-<li>Complexidade operacional precoce</li>
+<li>Organização do histórico</li>
+<li>Redução de conflitos</li>
+<li>Padronização das branches</li>
+<li>Previsibilidade no processo de entrega (CI/CD)</li>
+<li>Segurança nas releases de produção</li>
 </ul>
 <hr />
-<h2 id="decisao">Decisão</h2>
-<p>Os relatórios serão gerados sob demanda (<strong>on-demand</strong>), a partir de consultas diretas ao banco de dados, com as seguintes diretrizes:</p>
+<h2 id="principios-gerais">Princípios Gerais</h2>
+<ol>
+<li>Trabalhar sempre em branches, nunca diretamente na main.</li>
+<li>Cada feature = uma branch isolada.</li>
+<li>Pull Requests obrigatórios para qualquer mudança.</li>
+<li>Commits claros e padronizados (usando <a href="https://www.conventionalcommits.org/pt-br/v1.0.0/">Conventional Commits</a>).</li>
+<li>CI rodando automaticamente para toda PR.</li>
+<li>Merges sempre via PR, nunca com push --force.</li>
+</ol>
+<hr />
+<h2 id="estrutura-oficial-de-branches">Estrutura Oficial de Branches</h2>
+<h3 id="branches-permanentes">Branches permanentes</h3>
+<table>
+<thead>
+<tr>
+<th>Branch</th>
+<th>Função</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>main</td>
+<td>Código em produção.</td>
+</tr>
+<tr>
+<td>develop</td>
+<td>Usada para validação do time de QA</td>
+</tr>
+<tr>
+<td>stagind</td>
+<td>Usada para validação dos stakeholders</td>
+</tr>
+</tbody>
+</table>
+<h3 id="branches-temporarias-ciclo-de-desenvolvimento">Branches temporárias (ciclo de desenvolvimento)</h3>
+<table>
+<thead>
+<tr>
+<th>Tipo</th>
+<th>Nome</th>
+<th>Uso</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Feature</td>
+<td>feature/nome-da-feature</td>
+<td>Desenvolvimento de funcionalidades</td>
+</tr>
+<tr>
+<td>Fix</td>
+<td>fix/nome-do-fix</td>
+<td>Correções pequenas e rápidas</td>
+</tr>
+<tr>
+<td>Hotfix</td>
+<td>hotfix/nome-do-fix</td>
+<td>Correções críticas em Produção</td>
+</tr>
+<tr>
+<td>Release</td>
+<td>release-x.y.z</td>
+<td>Preparação de uma versão estável</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="convencoes-de-nomes-para-branches">Convenções de nomes para branches</h2>
+<p>Sempre minúsculas, contendo o tipo e descrição curta:</p>
 <ul>
-<li>Execução via endpoints específicos</li>
-<li>Suporte a filtros dinâmicos</li>
-<li>Paginação obrigatória em relatórios grandes</li>
-<li>Possibilidade de <strong>cache temporário</strong> para relatórios:</li>
-<li>Muito acessados</li>
-<li>De alto custo computacional</li>
-<li>Exportação em formato PDF</li>
-</ul>
-<p>Quando um relatório exigir <strong>processamento pesado ou agregações complexas</strong>, poderá ser:</p>
-<ul>
-<li>Otimizado com views</li>
-<li>Otimizado com índices específicos</li>
-<li>Ou, futuramente, convertido em processamento assíncrono</li>
+<li>feature/cadastro-usuarios</li>
+<li>fix/erro-ao-gerar-relatorio</li>
+<li>hotfix/corrigir-certificados-prod</li>
+<li>release/1.3.0</li>
 </ul>
 <hr />
-<h2 id="alternativas-consideradas">Alternativas consideradas</h2>
+<h2 id="convencao-de-commits">Convenção de commits</h2>
+<h3 id="formato-do-commit">Formato do commit</h3>
+<p>Sempre minúsculas, contendo tipo, escopo e descrição curta:</p>
+<p><code>tipo(escopo): descrição curta</code></p>
+<h3 id="tipos-de-commits-permitidos">Tipos de commits permitidos</h3>
 <ul>
-<li>Relatórios pré-processados em batch</li>
-<li>Relatórios sempre persistidos no banco</li>
-<li>Armazenamento de relatórios como arquivos permanentes</li>
+<li><code>feat</code>: nova funcionalidade</li>
+<li><code>fix</code>: correção</li>
+<li><code>chore</code>: manutenção</li>
+<li><code>docs</code>: documentação</li>
+<li><code>test</code>: testes</li>
+<li><code>refactor</code>: refatorações</li>
+<li><code>perf</code>: melhorias de performance</li>
+</ul>
+<p><strong>Exemplos</strong></p>
+<div class="highlight"><pre><span></span><code>feat<span class="o">(</span>auth<span class="o">)</span>:<span class="w"> </span>adicionar<span class="w"> </span>fluxo<span class="w"> </span>de<span class="w"> </span>recuperação<span class="w"> </span>de<span class="w"> </span>senha
+fix<span class="o">(</span>reports<span class="o">)</span>:<span class="w"> </span>corrigir<span class="w"> </span>cálculo<span class="w"> </span>de<span class="w"> </span>carga<span class="w"> </span>horária
+docs<span class="o">(</span>adr<span class="o">)</span>:<span class="w"> </span>criar<span class="w"> </span>ADR<span class="w"> </span>de<span class="w"> </span>versionamento<span class="w"> </span>de<span class="w"> </span>API
+</code></pre></div>
+<hr />
+<h2 id="processo-de-desenvolvimento">Processo de desenvolvimento</h2>
+<h3 id="1-criar-uma-branch-a-partir-da-main">1. Criar uma branch a partir da main</h3>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>main
+git<span class="w"> </span>pull
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>feature/nome
+</code></pre></div>
+<h3 id="2-desenvolver-e-commitar-seguindo-o-padrao">2. Desenvolver e commitar seguindo o padrão</h3>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat(monitoria): permitir inscrição de monitores&quot;</span>
+</code></pre></div>
+<h3 id="3-abrir-pull-request-pr-para-a-develop">3. Abrir Pull Request (PR) para a develop</h3>
+<ul>
+<li>Abrir PR assim que houver código funcional (PR precoce = menos conflito)</li>
+<li>CI roda automaticamente</li>
+<li>Deploy automático no ambiente QA</li>
+<li>QA valida a funcionalidade</li>
+</ul>
+<h4 id="quando-qa-encontra-erro-em-develop">Quando QA encontra erro em develop</h4>
+<p>Existem dois casos:</p>
+<h5 id="caso-1-pr-ainda-esta-aberto">Caso 1 - PR ainda está aberto</h5>
+<p>Basta ajustar na própria branch feature:</p>
+<div class="highlight"><pre><span></span><code>git checkout feature/nome
+git commit -m &quot;fix(escopo): ajuste solicitado pelo QA&quot;
+git push
+</code></pre></div>
+<p>O PR atualiza automaticamente e o QA retesta.</p>
+<h5 id="caso-2-pr-ja-foi-mergeado-em-develop">Caso 2 — PR já foi mergeado em develop</h5>
+<p>Nesse caso:</p>
+<ul>
+<li>Volte para a branch feature</li>
+<li>Atualize com a main</li>
+<li>Commit e push</li>
+<li>Abra novo PR → develop</li>
+</ul>
+<div class="highlight"><pre><span></span><code>git checkout feature/nome
+git pull origin main
+git commit -m &quot;fix(escopo): corrigir erro encontrado pelo QA&quot;
+git push
+</code></pre></div>
+<p>Importante</p>
+<ul>
+<li>Nunca se cria uma branch fix/ para corrigir bugs de QA nessa fase.</li>
+<li>Nada vai para staging até a aprovação total do QA.</li>
 </ul>
 <hr />
-<h2 id="consequencias">Consequências</h2>
+<h3 id="4-fluxo-de-release">4. Fluxo de Release</h3>
+<p><strong>Como acontece:</strong></p>
+<pre class="mermaid"><code>flowchart TD
+
+    A[feature/x criada a partir da main] --&gt; B[Desenvolvimento]
+    B --&gt; C[Abrir PR para develop]
+    C --&gt; D[CI executa testes automáticos]
+    D --&gt; E[QA valida em develop]
+
+    E --&gt;|Aprovado| F[Criar release/x.y.z]
+    E --&gt;|Reprovado| B
+
+    F --&gt; G[Abrir PR da release para staging]
+    G --&gt; H[Deploy automático/semiautomático em staging]
+    H --&gt; I[Stakeholders validam em staging]
+
+    I --&gt;|Aprovado| J[Merge da release na main]
+    J --&gt; K[Tag e deploy em produção]
+
+    I --&gt;|Reprovado| F</code></pre>
+<p>Após a aprovação do QA, criar branch release</p>
+<p><code>git checkout -b release/1.2.0</code></p>
+<p>A branch release deve conter somente correções finais, nunca novas features.</p>
+<h3 id="5-enviar-release-para-staging">5. Enviar Release para staging</h3>
+<p><strong>Como acontece:</strong></p>
+<pre class="mermaid"><code>flowchart TD
+    A[feature/*] --&gt; B[develop]
+    B --&gt;|QA Aprova| C[release/x.y.z]
+    C --&gt; D[staging]
+    D --&gt;|Cliente aprova| E[main]
+    E --&gt;|CI/CD| F[Produção]
+
+    B --&gt;|QA encontra erro| A
+    D --&gt;|Cliente encontra erro| C
+
+    E --&gt;|Problema crítico| G[hotfix/*]
+    G --&gt; E</code></pre>
 <ul>
-<li>✅ Menor consumo de armazenamento</li>
-<li>✅ Dados sempre atualizados</li>
-<li>✅ Alta flexibilidade de filtros</li>
-<li>✅ Implementação mais simples no início do projeto</li>
-<li>✅ Menor complexidade operacional</li>
-<li>❌ Pode exigir otimização de queries</li>
-<li>❌ Pode aumentar carga no banco em horários de pico</li>
+<li>Criar PR da <code>release</code> para <code>staging</code></li>
+<li>Deploy automático no ambiente de homologação</li>
+<li>Stakeholders validam</li>
 </ul>
+<h4 id="quando-o-cliente-encontra-erro-em-staging">Quando o cliente encontra erro em staging</h4>
+<ul>
+<li>Corrigir na branch release</li>
+</ul>
+<div class="highlight"><pre><span></span><code>git checkout release/1.2.0
+git pull
+git commit -m &quot;fix(staging): corrigir erro validado pelo cliente&quot;
+git push
+</code></pre></div>
+<ul>
+<li>Re-executar deploy em staging</li>
+</ul>
+<p><strong>Desta forma:</strong></p>
+<ul>
+<li>staging continua limpo</li>
+<li>develop não precisa tocar</li>
+<li>main não muda até a aprovação</li>
+<li>não recria release desnecessariamente</li>
+</ul>
+<p>Se o erro for complexo, pode criar uma branch auxiliar:</p>
+<p><code>fix/release-1.2.0-erros-staging</code></p>
+<p>Depois merge nessa release.</p>
+<h3 id="6-apos-aprovacao-dos-stakeholders-merge-da-release-na-main">6. Após aprovação dos stakeholders - merge da Release na main</h3>
+<ul>
+<li>Abrir PR para a <code>main</code></li>
+<li>Deploy automático em Produção.</li>
+</ul>
+<h3 id="hotfix-em-producao-main">Hotfix em Produção (main)</h3>
+<p>Quando surge um problema crítico na main:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>main
+git<span class="w"> </span>pull
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>hotfix/correcao-y
+</code></pre></div>
+<p>Após ajuste:</p>
+<ul>
+<li>PR → develop</li>
+<li>PR → staging</li>
+<li>PR → main</li>
+</ul>
+<p>Isso mantém todos os ambientes sincronizados.</p>
+<h4 id="deploy-por-ambiente">Deploy por ambiente</h4>
+<table>
+<thead>
+<tr>
+<th>Branch</th>
+<th>Ambiente</th>
+<th>Deploy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>develop</td>
+<td>QA</td>
+<td>Automático</td>
+</tr>
+<tr>
+<td>staging</td>
+<td>Homologação</td>
+<td>Automático</td>
+</tr>
+<tr>
+<td>main</td>
+<td>Produção</td>
+<td>Automático + Tag</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tags-e-versionamento">Tags e versionamento</h3>
+<p>Usar <strong>SemVer</strong>:</p>
+<p><code>MAJOR.MINOR.PATCH</code></p>
+<p>Exemplos:</p>
+<ul>
+<li>1.0.0 — primeira versão</li>
+<li>1.1.0 — nova funcionalidade</li>
+<li>1.1.1 — correção pequena</li>
+</ul>
+<p>Criar tag manual, se necessário:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>tag<span class="w"> </span>-a<span class="w"> </span><span class="m">1</span>.1.1<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Correção do módulo de X&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span><span class="m">1</span>.1.1
+</code></pre></div>
+<hr />
+<h2 id="boas-praticas">Boas Práticas</h2>
+<ul>
+<li>Commits pequenos e frequentes.</li>
+<li>PRs pequenas (ideal &lt; 300 linhas).</li>
+<li>Nunca misturar feature com refatoração pesada.</li>
+<li>Nunca trabalhar diretamente na branch dos outros.</li>
+<li>Branch sempre atualizada com main antes de abrir PR.</li>
+</ul>
+<hr />
+<h2 id="anti-patterns-o-que-evitar">Anti-Patterns (o que evitar)</h2>
+<ul>
+<li><code>git push --force</code> na main.</li>
+<li>PR gigante com 30 arquivos alterados.</li>
+<li>Commits genéricos como “ajustes”.</li>
+<li>Branch sem nomeação clara.</li>
+<li>Commits diretamente na main.</li>
+</ul>
+<hr />
+<p><strong>Changelog</strong></p>
+<table>
+<thead>
+<tr>
+<th>Versão</th>
+<th>Data</th>
+<th>Alteração</th>
+<th>Autor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.0</td>
+<td>2025-12-11</td>
+<td>Criação inicial da página</td>
+<td><a href="https://linkedin.com/in/vieira-a">Anderson Vieira</a></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code>
+</code></pre></div>
 
 
 
@@ -1536,7 +2064,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Rodapé" >
         
           
-          <a href="../adr-010/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: DDR-010 - Estratégia de testes">
+          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Visão geral">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1546,20 +2074,20 @@
                 Anterior
               </span>
               <div class="md-ellipsis">
-                DDR-010 - Estratégia de testes
+                Visão geral
               </div>
             </div>
           </a>
         
         
           
-          <a href="../adr-012/" class="md-footer__link md-footer__link--next" aria-label="Próximo: DDR-012 - Versionamento de API">
+          <a href="../../arquitetura/overview/" class="md-footer__link md-footer__link--next" aria-label="Próximo: Arquitetura">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Próximo
               </span>
               <div class="md-ellipsis">
-                DDR-012 - Versionamento de API
+                Arquitetura
               </div>
             </div>
             <div class="md-footer__button md-icon">
