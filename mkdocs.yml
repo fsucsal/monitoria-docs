@@ -26,33 +26,30 @@ theme:
     code: JetBrains Mono
 
   features:
+    # Navegação
     - navigation.tabs
+    - navigation.tabs.sticky
     - navigation.top
     - navigation.sections
     - navigation.expand
-    - toc.integrate
-    - search.suggest
-    - search.highlight
-    - content.code.copy
+    - navigation.footer
     - navigation.instant
     - navigation.instant.progress
     - navigation.tracking
 
-    - navigation.tabs
-    - navigation.tabs.sticky
-    - navigation.sections
-    - navigation.top
-    - navigation.footer
+    # TOC
+    - toc.integrate
+    - toc.follow
 
-    - search.highlight
+    # Busca
     - search.suggest
+    - search.highlight
     - search.share
 
+    # Conteúdo
     - content.code.copy
     - content.code.annotate
     - content.tabs.link
-
-    - toc.follow
 
 plugins:
   - search
@@ -60,67 +57,73 @@ plugins:
       use_pymdownx: true
 
 markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+
   - pymdownx.details
-  - pymdownx.superfences
-  - pymdownx.superfences
   - pymdownx.highlight
-  - pymdownx.tabbed
-  - pymdownx.mark
-  - pymdownx.emoji
-  - pymdownx.betterem
-  - pymdownx.details
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.keys
   - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.betterem
 
-  # Mermaid
+  - pymdownx.tabbed:
+      alternate_style: true
+
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg # Mermaid
+
+
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
           class: mermaid
 
-  - pymdownx.tabbed:
-      alternate_style: true
-
-  - attr_list
-  - md_in_html
-  - admonition
-  - pymdownx.emoji:
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg
-
 nav:
   - Início: index.md
 
-  - Requisitos: requisitos/index.md
+  - Requisitos:
+      - Conteúdo: requisitos/index.md
 
-  - Padrões:
-      - Visão geral: padroes/index.md
-      - Fluxo de Git: padroes/git.md
+  - Arquitetura:
+      - Conteúdo: arquitetura/index.md
+      - Módulos: arquitetura/modulos.md
+      - Infraestrutura: arquitetura/infraestrutura.md
+      - Segurança: arquitetura/seguranca.md
+      - ADRs:
+          - Conteúdo: arquitetura/adr/index.md
+          - Estilo Arquitetural: arquitetura/adr/adr-001.md
+          - Estilo de Comunicação: arquitetura/adr/adr-002.md
+          - Banco de Dados Principal: adr/adr-003.md
+          - Autenticação: arquitetura/adr/adr-004.md
+          - Controle de Acesso: arquitetura/adr/adr-005.md
+          - Conteinerização: arquitetura/adr/adr-006.md
+          - Geração de Certificados: arquitetura/adr/adr-007.md
+          - Armazenamento de Arquivos: arquitetura/adr/adr-008.md
 
-  - Arquitetura: arquitetura/visao-geral.md
-  - Backend:
-      - Visão Geral: backend/visao-geral.md
+  - Desenvolvimento:
+      - Visão Geral: desenvolvimento/index.md
+      - Guia Backend: desenvolvimento/guia-backend.md
+      - Estrutura do Projeto: desenvolvimento/estrutura-projeto.md
+      - Entidades JPA: desenvolvimento/entidades-jpa.md
+      - Controllers: desenvolvimento/controllers.md
+      - Services: desenvolvimento/services.md
+      - Repositories: desenvolvimento/repositories.md
+      - Comunicação entre Módulos: desenvolvimento/comunicacao-modulos.md
+      - Testes: desenvolvimento/testes.md
+      - Validações: desenvolvimento/validacoes.md
+      - Erros e Exceções: desenvolvimento/excecoes-error.md
+      - Logs e Observabilidade: desenvolvimento/log-observabilidade.md
+      - Antipadrões: desenvolvimento/antipadroes.md
 
   - API:
-      - API v1: api/v1.md
+      - Conteúdo: api/index.md
+      - V1:
+          - Referência: api/v1/index.md
 
-  - ADRs:
-      - Visão Geral: adr/index.md
-      - DDR-001 - Estilo arquitetural: adr/adr-001.md
-      - DDR-002 - Estilo de comunicação: adr/adr-002.md
-      - DDR-003 - Banco de dados principal: adr/adr-003.md
-      - DDR-004 - Autenticação: adr/adr-004.md
-      - DDR-005 - Controle de acesso: adr/adr-005.md
-      - DDR-006 - Conteinerização: adr/adr-006.md
-      - DDR-007 - Geração de certificados: adr/adr-007.md
-      - DDR-008 - Armazenamento de arquivos: adr/adr-008.md
-      - DDR-009 - Observabilidade: adr/adr-009.md
-      - DDR-010 - Estratégia de testes: adr/adr-010.md
-      - DDR-011 - Relatórios: adr/adr-011.md
-      - DDR-012 - Versionamento de API: adr/adr-012.md
-      - DDR-013 - Segurança de Senhas: adr/adr-013.md
-      - DDR-014 - Evolução arquitetural: adr/adr-014.md
-      - DDR-015 - Recuperação de senhas: adr/adr-015.md
-      - DDR-016 - Politica de senha: adr/adr-016.md
-      - DDR-017 - Mensageria e filas: adr/adr-017.md
+  - Processos:
+      - Visão Geral: padroes/index.md
+      - Fluxo de Git: padroes/git.md

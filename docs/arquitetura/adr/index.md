@@ -1,4 +1,4 @@
-# Arquitetura e Decisões Técnicas (ADRs)
+# Decisões Técnicas de Arquitetura
 
 Este documento centraliza todas as **Architecture Decision Records (ADRs)** do projeto.
 

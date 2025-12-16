@@ -135,11 +135,9 @@ Permitirá a **gestão digital completa do processo de monitoria**, desde a insc
 
 ### Frontend
 
-Aplicação web desenvolvida em uma tecnologia moderna como:
+Aplicação web desenvolvida em uma tecnologia moderna:
 
-- React
-- Angular
-- Ou equivalente
+- React com Vite
 
 ---
 
@@ -147,9 +145,7 @@ Aplicação web desenvolvida em uma tecnologia moderna como:
 
 API REST desenvolvida em:
 
-- Spring Boot (Java)  
-  ou
-- Python (framework a definir)
+- Java com Spring
 
 Responsável por:
 
@@ -163,9 +159,5 @@ Responsável por:
 ### Banco de Dados
 
 - **PostgreSQL**
-- Garante:
-  - Integridade relacional
-  - Segurança dos dados
-  - Escalabilidade
 
 ---

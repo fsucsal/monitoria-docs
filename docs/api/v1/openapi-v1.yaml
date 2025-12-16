@@ -1,0 +1,151 @@
+openapi: 3.0.3
+info:
+  title: API - Sistema de Seleção de Monitoria (UCSal)
+  version: "1.0.0"
+  description: |
+    API REST para inscrição, seleção, gestão e certificação de monitorias.
+
+    ## Padrões importantes
+    - Responses padronizadas
+    - Erros tratados de forma centralizada
+    - API como contrato (não expõe detalhes internos)
+servers:
+  - url: https://api.ucsal.edu.br/api/v1
+    description: Produção (exemplo)
+  - url: http://localhost:8080/api/v1
+    description: Local
+
+security:
+  - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    ApiError:
+      type: object
+      description: Erro padronizado retornado pela API
+      properties:
+        code:
+          type: string
+          example: DOMAIN_VALIDATION
+        message:
+          type: string
+          example: Aluno já possui o número máximo de inscrições permitidas
+        details:
+          type: object
+          additionalProperties: true
+      required: [code, message]
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        role:
+          type: string
+        active:
+          type: boolean
+      required: [id, name, email, role]
+
+    Enrollment:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        studentId:
+          type: string
+          format: uuid
+        disciplineId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [PENDING, APPROVED, REJECTED]
+        createdAt:
+          type: string
+          format: date-time
+      required: [id, studentId, disciplineId, status, createdAt]
+
+paths:
+  /auth/login:
+    post:
+      summary: Autenticação do usuário
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+              required: [email, password]
+      responses:
+        "200":
+          description: Autenticado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                  refreshToken:
+                    type: string
+        "401":
+          description: Credenciais inválidas
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+
+  /enrollments:
+    post:
+      summary: Criar inscrição
+      tags: [Enrollment]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                disciplineId:
+                  type: string
+                  format: uuid
+              required: [disciplineId]
+      responses:
+        "201":
+          description: Inscrição criada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Enrollment"
+        "400":
+          description: Violação de regra de negócio ou validação
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: Não autenticado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"

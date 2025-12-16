@@ -3,6 +3,8 @@
 Bem-vindo à documentação oficial do Sistema de Seleção de Monitoria da UCSAL.
 Esta plataforma foi projetada para automatizar, organizar e dar transparência ao processo de inscrição, seleção, acompanhamento e certificação de monitores universitários.
 
+---
+
 ## Visão Geral
 
 O sistema permite que:
@@ -14,6 +16,8 @@ O sistema permite que:
 
 Tudo isso em uma plataforma web segura, moderna e escalável.
 
+---
+
 ## Objetivos do Projeto
 
 - Automatizar o processo de seleção de monitores
@@ -21,6 +25,8 @@ Tudo isso em uma plataforma web segura, moderna e escalável.
 - Centralizar o controle de carga horária
 - Facilitar a emissão de certificados
 - Oferecer relatórios para gestão acadêmica
+
+---
 
 ## Público-Alvo
 
@@ -30,22 +36,7 @@ Tudo isso em uma plataforma web segura, moderna e escalável.
 | Professor   | Avaliação e seleção de monitores                     |
 | Coordenador | Gestão geral e emissão de certificados               |
 
-## Arquitetura em alto nível
-
-- Frontend: Aplicação Web (React ou Angular)
-- Backend: API REST (Spring Boot ou Python)
-- Banco de Dados: PostgreSQL
-- Segurança: Autenticação por perfil e controle de acesso
-- Documentação: MkDocs + OpenAPI + ADRs
-
-## Tecnologias Previstas
-
-- Backend: Spring Boot
-- Frontend: React ou Angular
-- Banco: PostgreSQL
-- Documentação: MkDocs
-- Autenticação: JWT
-- Infraestrutura: Docker + CI/CD
+---
 
 ## Contato e Suporte
 

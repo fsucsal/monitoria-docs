@@ -1,13 +1,6 @@
 # Documento de Arquitetura de Software
 
-**Sistema de Seleção de Monitoria — UCSal**
-**Versão:** 1.0
-**Data:** 04-12-2025
-**Autor:** Anderson Vieira
-
----
-
-## 1. Visão Geral
+## Visão Geral
 
 Este documento descreve a **visão arquitetural de alto nível** do _Sistema de Seleção de Monitoria — UCSal_.
 
@@ -15,14 +8,14 @@ Ele tem como objetivo apresentar **o que é o sistema, como ele está organizado
 
 > Detalhes de padrões de desenvolvimento, validações, exceções, testes e logging estão documentados no **Guia de Padrões de Desenvolvimento Backend**.
 
-### 1.1 Objetivos do Documento
+### Objetivos do Documento
 
 - Apresentar a arquitetura do sistema de forma clara e padronizada
 - Servir como referência para evolução técnica do projeto
 - Apoiar decisões de manutenção, extensão e refatoração
 - Alinhar entendimento entre backend, frontend e infraestrutura
 
-### 1.2 Escopo
+### Escopo
 
 Este documento cobre:
 
@@ -41,9 +34,9 @@ Este documento cobre:
 
 ---
 
-## 2. Visão Arquitetural
+## Visão Arquitetural
 
-### 2.1 Estilo Arquitetural
+### Estilo Arquitetural
 
 - **Arquitetura:** Monólito Modular
 - **Separação por módulos de domínio**
@@ -51,40 +44,40 @@ Este documento cobre:
 
 > A modularização é lógica e organizacional, preparando o terreno para extração futura de serviços.
 
-### 2.2 Modelo de Execução
+### Modelo de Execução
 
 - Backend Java + Spring Boot
 - Deploy em containers Docker
 - Docker Compose no início
 - Kubernetes como possibilidade futura
 
-### 2.3 Comunicação
+### Comunicação
 
 - APIs REST
 - Contrato documentado com **OpenAPI (Swagger)**
 - Comunicação síncrona entre frontend e backend
 - Processos pesados podem evoluir para execução assíncrona
 
-### 2.4 Persistência
+### Persistência
 
 - **PostgreSQL** como banco principal
 - **Redis (opcional)** para cache, locks simples e filas leves
 
-### 2.5 Autenticação
+### Autenticação
 
 - JWT stateless
 - Evolução futura para OAuth2 / SSO institucional
 
-### 2.6 Observabilidade
+### Observabilidade
 
 - Logs estruturados (JSON)
 - Preparado para integração com ferramentas externas
 
 ---
 
-## 3. Decisões Arquiteturais Principais
+## Decisões Arquiteturais Principais
 
-### 3.1 Monólito Modular
+### Monólito Modular
 
 **Justificativa:**
 
@@ -92,7 +85,7 @@ Este documento cobre:
 - Facilita aprendizado
 - Mantém organização clara
 
-### 3.2 API REST + OpenAPI
+### API REST + OpenAPI
 
 **Justificativa:**
 
@@ -100,7 +93,7 @@ Este documento cobre:
 - Desenvolvimento paralelo
 - Base para testes e documentação
 
-### 3.3 PostgreSQL
+### PostgreSQL
 
 **Justificativa:**
 
@@ -108,7 +101,7 @@ Este documento cobre:
 - Integridade referencial
 - Relatórios estruturados
 
-### 3.4 Docker
+### Docker
 
 **Justificativa:**
 
@@ -117,7 +110,7 @@ Este documento cobre:
 
 ---
 
-## 4. Organização em Módulos
+## Organização em Módulos
 
 Cada módulo representa um **contexto funcional claro**, isolado por pacote.
 
@@ -138,7 +131,7 @@ Cada módulo representa um **contexto funcional claro**, isolado por pacote.
 
 ---
 
-## 5. Estrutura de Código
+## Estrutura de Código
 
 ```text
 src/
@@ -159,14 +152,14 @@ src/
     └── dto/
 ```
 
-### Observações
+**Observações**
 
 - `shared` contém apenas código **transversal**
 - Nada de regras de negócio no `shared`
 
 ---
 
-## 6. Modelagem de Dados (Visão Geral)
+## Modelagem de Dados (Visão Geral)
 
 A modelagem segue princípios relacionais clássicos, sem lógica de negócio nas entidades.
 
@@ -176,7 +169,7 @@ A modelagem segue princípios relacionais clássicos, sem lógica de negócio na
 
 ---
 
-## 7. Contrato de APIs
+## Contrato de APIs
 
 - Versionamento: `/api/v1/...`
 - Todas as respostas de erro seguem padrão único
@@ -192,13 +185,13 @@ Exemplo:
 
 ---
 
-## 8. Segurança
+## Segurança
 
-### 8.1 Autenticação
+### Autenticação
 
 - JWT com access token e refresh token
 
-### 8.2 Autorização
+### Autorização
 
 Perfis principais:
 
@@ -211,7 +204,7 @@ Autorização aplicada no **controller** via annotations.
 
 ---
 
-## 9. Tratamento de Erros e Exceções
+## Tratamento de Erros e Exceções
 
 - Controllers não tratam exceções
 - Services lançam exceções de negócio
@@ -221,7 +214,7 @@ Autorização aplicada no **controller** via annotations.
 
 ---
 
-## 10. Logs e Observabilidade
+## Logs e Observabilidade
 
 - Logger padrão do Spring (SLF4J)
 - Logs estruturados em JSON
@@ -232,7 +225,7 @@ Autorização aplicada no **controller** via annotations.
 
 ---
 
-## 11. Infraestrutura e Deploy
+## Infraestrutura e Deploy
 
 ### Ambientes
 
@@ -246,15 +239,15 @@ Autorização aplicada no **controller** via annotations.
 
 ---
 
-## 12. Qualidade de Código
+## Qualidade de Código
 
-- Testes unitários obrigatórios
+- Testes unitários obrigatórios para recursos chave
 - Code review obrigatório
-- ADRs documentados em `/docs/adr`
+- ADRs documentados
 
 ---
 
-## 13. Evolução Futura
+## Evolução Futura
 
 - Extração do módulo `certification`
 - Introdução de mensageria
