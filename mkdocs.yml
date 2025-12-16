@@ -98,7 +98,7 @@ nav:
       - Visão geral: padroes/index.md
       - Fluxo de Git: padroes/git.md
 
-  - Arquitetura: arquitetura/overview.md
+  - Arquitetura: arquitetura/visao-geral.md
   - Backend:
       - Visão Geral: backend/visao-geral.md
 
