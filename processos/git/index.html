@@ -13,6 +13,8 @@
       
       
       
+        <link rel="prev" href="../">
+      
       
       
         
@@ -23,7 +25,7 @@
     
     
       
-        <title>Padrão de Fluxo de Git - Monitoria</title>
+        <title>Fluxo de Git - Monitoria</title>
       
     
     
@@ -110,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Padrão de Fluxo de Git
+              Fluxo de Git
             
           </span>
         </div>
@@ -307,11 +309,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../padroes/index.md" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
           
   
   
@@ -1575,28 +1579,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
-        
-          
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
             
   
   
@@ -1614,7 +1621,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1632,7 +1639,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../padroes/index.md" class="md-nav__link">
+      <a href="../" class="md-nav__link">
         
   
   
@@ -1657,10 +1664,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../padroes/git.md" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fluxo de Git
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1676,6 +1710,343 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivo-do-documento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivo do Documento
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#principios-gerais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Princípios Gerais
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estrutura-oficial-de-branches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estrutura Oficial de Branches
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Estrutura Oficial de Branches">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#branches-permanentes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Branches permanentes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#branches-temporarias-ciclo-de-desenvolvimento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Branches temporárias (ciclo de desenvolvimento)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#convencoes-de-nomes-para-branches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Convenções de nomes para branches
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#convencao-de-commits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Convenção de commits
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Convenção de commits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#formato-do-commit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Formato do commit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tipos-de-commits-permitidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tipos de commits permitidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#processo-de-desenvolvimento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Processo de desenvolvimento
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Processo de desenvolvimento">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-criar-uma-branch-a-partir-da-main" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Criar uma branch a partir da main
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-desenvolver-e-commitar-seguindo-o-padrao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Desenvolver e commitar seguindo o padrão
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-abrir-pull-request-pr-para-a-develop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Abrir Pull Request (PR) para a develop
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Abrir Pull Request (PR) para a develop">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quando-qa-encontra-erro-em-develop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quando QA encontra erro em develop
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quando QA encontra erro em develop">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#caso-1-pr-ainda-esta-aberto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Caso 1 - PR ainda está aberto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#caso-2-pr-ja-foi-mergeado-em-develop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Caso 2 — PR já foi mergeado em develop
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-fluxo-de-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Fluxo de Release
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-enviar-release-para-staging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Enviar Release para staging
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Enviar Release para staging">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quando-o-cliente-encontra-erro-em-staging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quando o cliente encontra erro em staging
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-apos-aprovacao-dos-stakeholders-merge-da-release-na-main" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Após aprovação dos stakeholders - merge da Release na main
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hotfix-em-producao-main" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hotfix em Produção (main)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Hotfix em Produção (main)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#deploy-por-ambiente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deploy por ambiente
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tags-e-versionamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tags e versionamento
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#boas-praticas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Boas Práticas
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anti-patterns-o-que-evitar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anti-Patterns (o que evitar)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2051,6 +2422,28 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
       
         <footer class="md-footer">
   
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Rodapé" >
+        
+          
+          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Visão Geral">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                Visão Geral
+              </div>
+            </div>
+          </a>
+        
+        
+      </nav>
     
   
   <div class="md-footer-meta md-typeset">
