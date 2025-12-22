@@ -125,5 +125,5 @@ nav:
           - Referência: api/v1/index.md
 
   - Processos:
-      - Visão Geral: padroes/index.md
-      - Fluxo de Git: padroes/git.md
+      - Visão Geral: processos/index.md
+      - Fluxo de Git: processos/git.md
