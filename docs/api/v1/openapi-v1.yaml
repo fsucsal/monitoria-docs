@@ -1,88 +1,440 @@
 openapi: 3.0.3
+
 info:
-  title: API - Sistema de Seleção de Monitoria (UCSal)
-  version: "1.0.0"
-  description: |
-    API REST para inscrição, seleção, gestão e certificação de monitorias.
+  title: Sistema de Seleção de Monitoria
+  description: API oficial para gestão de monitorias acadêmicas da universidade
+  version: 1.0.0
 
-    ## Padrões importantes
-    - Responses padronizadas
-    - Erros tratados de forma centralizada
-    - API como contrato (não expõe detalhes internos)
 servers:
-  - url: https://api.ucsal.edu.br/api/v1
-    description: Produção (exemplo)
-  - url: http://localhost:8080/api/v1
-    description: Local
-
-security:
-  - bearerAuth: []
+  - url: https://api.monitoria.ucsal.br
 
 components:
   securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: accessToken
+
+  responses:
+    BadRequest:
+      description: Requisição inválida
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiError"
+
+    Unauthorized:
+      description: Não autenticado
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiError"
+
+    Forbidden:
+      description: Acesso negado
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiError"
+
+    NotFound:
+      description: Recurso não encontrado
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiError"
+
+    Conflict:
+      description: Violação de regra de negócio
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiError"
 
   schemas:
     ApiError:
       type: object
-      description: Erro padronizado retornado pela API
+      required: [error, timestamp]
       properties:
-        code:
-          type: string
-          example: DOMAIN_VALIDATION
-        message:
-          type: string
-          example: Aluno já possui o número máximo de inscrições permitidas
-        details:
+        error:
           type: object
-          additionalProperties: true
-      required: [code, message]
+          required: [code, message]
+          properties:
+            code:
+              type: string
+              example: ERROR_CODE
+            message:
+              type: string
+              example: Error message
+        timestamp:
+          type: string
+          format: date-time
 
     User:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        email:
-          type: string
-          format: email
+        id: { type: string, format: uuid }
+        name: { type: string }
+        email: { type: string, format: email }
         role:
           type: string
-        active:
-          type: boolean
-      required: [id, name, email, role]
+          enum: [ADMIN, COORDINATOR, PROFESSOR, STUDENT]
+
+    Course:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+
+    Discipline:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        code: { type: string }
+        name: { type: string }
+
+    DisciplineOffering:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        disciplineId: { type: string, format: uuid }
+        courseId: { type: string, format: uuid }
+        semester: { type: string }
+        shift:
+          type: string
+          enum: [MORNING, AFTERNOON, NIGHT]
+        classGroup: { type: string }
+        teacherId: { type: string, format: uuid }
 
     Enrollment:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-        studentId:
-          type: string
-          format: uuid
-        disciplineId:
-          type: string
-          format: uuid
+        id: { type: string, format: uuid }
+        studentId: { type: string, format: uuid }
+        offeringId: { type: string, format: uuid }
         status:
           type: string
           enum: [PENDING, APPROVED, REJECTED]
-        createdAt:
+
+    MonitorAssignment:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        enrollmentId: { type: string, format: uuid }
+        startDate: { type: string, format: date }
+        endDate: { type: string, format: date }
+
+    Activity:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        monitorAssignmentId: { type: string, format: uuid }
+        description: { type: string }
+        hours: { type: number }
+        date: { type: string, format: date }
+        status:
           type: string
-          format: date-time
-      required: [id, studentId, disciplineId, status, createdAt]
+          enum: [PENDING, APPROVED, REJECTED]
+
+    Certificate:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        monitorAssignmentId: { type: string, format: uuid }
+        issuedAt: { type: string, format: date-time }
+        totalHours: { type: number }
+        validationCode: { type: string }
 
 paths:
+  ############################
+  # AUTH
+  ############################
+  /auth/signup:
+    post:
+      summary: Cadastro
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, password, courseId]
+              properties:
+                name: { type: string }
+                email: { type: string, format: email }
+                password: { type: string }
+                courseId: { type: string }
+      responses:
+        "201": { description: Cadastro realizado }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "409": { $ref: "#/components/responses/Conflict" }
+
   /auth/login:
     post:
-      summary: Autenticação do usuário
-      tags: [Auth]
+      summary: Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email: { type: string, format: email }
+                password: { type: string }
+      responses:
+        "200": { description: Login realizado }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /auth/refresh:
+    post:
+      summary: Refresh token
+      responses:
+        "200": { description: Token renovado }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+
+  /auth/me:
+    get:
+      summary: Perfil do usuário logado
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200":
+          description: Perfil
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/User" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+    put:
+      summary: Atualizar perfil
+      security: [{ cookieAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/User" }
+      responses:
+        "200": { description: Perfil atualizado }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    delete:
+      summary: Deletar perfil
+      security: [{ cookieAuth: [] }]
+      responses:
+        "204": { description: Perfil deletado }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /auth/reset-password:
+    post:
+      summary: Solicitar resete de senha
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email: { type: string, format: email }
+      responses:
+        "201": { description: Reset de senha solicitado }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /auth/change-password:
+    post:
+      summary: Alterar senha
+      parameters:
+        - name: token
+          in: path
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [password]
+              properties:
+                password: { type: string }
+      responses:
+        "201": { description: Senha alterada }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+
+  ############################
+  # USERS (ADMIN)
+  ############################
+  /users:
+    get:
+      summary: Listar usuários
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  {
+                    schema:
+                      {
+                        type: array,
+                        items: { $ref: "#/components/schemas/User" },
+                      },
+                  },
+              },
+          }
+        "404": { $ref: "#/components/responses/NotFound" }
+    get/{id}:
+      summary: Buscar usuário
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  {
+                    schema:
+                      {
+                        type: array,
+                        items: { $ref: "#/components/schemas/User" },
+                      },
+                  },
+              },
+          }
+        "404": { $ref: "#/components/responses/NotFound" }
+    post:
+      summary: Criar usuário
+      security: [{ cookieAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, role]
+              properties:
+                name: { type: string }
+                email: { type: string }
+                role: { type: string }
+      responses:
+        "201": { description: Criado }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "409": { $ref: "#/components/responses/Conflict" }
+  /users/{id}:
+    put:
+      summary: Atualizar usuário
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, role]
+              properties:
+                name: { type: string }
+                email: { type: string }
+                role: { type: string }
+      responses:
+        "200": { description: OK }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+    delete:
+      summary: Remover usuário
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204": { description: Removido }
+        "404": { $ref: "#/components/responses/NotFound" }
+  ############################
+  # COURSES
+  ############################
+  /courses:
+    get:
+      summary: Listar cursos
+      responses:
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  { schema: { $ref: "#/components/schemas/Course" } },
+              },
+          }
+        "404": { $ref: "#/components/responses/NotFound" }
+    get/{id}:
+      summary: Buscar curso
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  { schema: { $ref: "#/components/schemas/Course" } },
+              },
+          }
+        "404": { $ref: "#/components/responses/NotFound" }
+    post:
+      summary: Criar curso
+      security: [{ cookieAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name: { type: string }
+      responses:
+        "201": { description: Criado }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "409": { $ref: "#/components/responses/Conflict" }
+  /courses/{id}:
+    put:
+      summary: Atualizar curso
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       requestBody:
         required: true
         content:
@@ -90,62 +442,495 @@ paths:
             schema:
               type: object
               properties:
-                email:
-                  type: string
-                  format: email
-                password:
-                  type: string
-              required: [email, password]
+                name: { type: string }
+      responses:
+        "200": { description: Atualizado }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    delete:
+      summary: Remover curso
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204": { description: Removido }
+
+  ############################
+  # DISCIPLINES
+  ############################
+  /disciplines:
+    get:
+      summary: Listar disciplinas
       responses:
         "200":
-          description: Autenticado com sucesso
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  { schema: { $ref: "#/components/schemas/Discipline" } },
+              },
+          }
+        "404": { $ref: "#/components/responses/NotFound" }
+    get/{id}:
+      summary: Buscar disciplina
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  { schema: { $ref: "#/components/schemas/Discipline" } },
+              },
+          }
+        "404": { $ref: "#/components/responses/NotFound" }
+    post:
+      summary: Criar disciplina
+      security: [{ cookieAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [code, name]
+              properties:
+                code: { type: string }
+                name: { type: string }
+      responses:
+        "201": { description: Criado }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "409": { $ref: "#/components/responses/Conflict" }
+    /disciplines/{id}:
+      put:
+        summary: Atualizar disciplina
+        security: [{ cookieAuth: [] }]
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+              format: uuid
+        requestBody:
+          required: false
           content:
             application/json:
               schema:
                 type: object
+                required: [code, name]
                 properties:
-                  accessToken:
-                    type: string
-                  refreshToken:
-                    type: string
-        "401":
-          description: Credenciais inválidas
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-
-  /enrollments:
+                  code: { type: string }
+                  name: { type: string }
+        responses:
+          "200": { description: OK }
+          "400": { $ref: "#/components/responses/BadRequest" }
+          "404": { $ref: "#/components/responses/NotFound" }
+          "409": { $ref: "#/components/responses/Conflict" }
+      delete:
+        summary: Remover disciplina
+        security: [{ cookieAuth: [] }]
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+              format: uuid
+        responses:
+          "204": { description: Removido }
+          "404": { $ref: "#/components/responses/NotFound" }
+  ############################
+  # OFFERINGS
+  ############################
+  /offerings:
+    get:
+      summary: Listar ofertas
+      responses:
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  {
+                    schema: { $ref: "#/components/schemas/DisciplineOffering" },
+                  },
+              },
+          }
+        "404": { $ref: "#/components/responses/NotFound" }
+    get/{id}:
+      summary: Buscar oferta de disciplina
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  {
+                    schema: { $ref: "#/components/schemas/DisciplineOffering" },
+                  },
+              },
+          }
+        "404": { $ref: "#/components/responses/NotFound" }
     post:
-      summary: Criar inscrição
-      tags: [Enrollment]
+      summary: Criar oferta de disciplina
+      security: [{ cookieAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/DisciplineOffering" }
+      responses:
+        "201": { description: Criado }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "409": { $ref: "#/components/responses/Conflict" }
+  /offerings/{id}:
+    put:
+      summary: Atualizar oferta de disciplina
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/DisciplineOffering" }
+      responses:
+        "200": { description: OK }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+    delete:
+      summary: Remover oferta de disciplina
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204": { description: Removido }
+        "404": { $ref: "#/components/responses/NotFound" }
+  ############################
+  # ENROLLMENTS
+  ############################
+  /enrollments:
+    get:
+      summary: Listar candidaturas
+      responses:
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  { schema: { $ref: "#/components/schemas/Enrollment" } },
+              },
+          }
+        "404": { $ref: "#/components/responses/NotFound" }
+    get/{id}:
+      summary: Buscar candidatura
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  { schema: { $ref: "#/components/schemas/Enrollment" } },
+              },
+          }
+        "404": { $ref: "#/components/responses/NotFound" }
+    post:
+      summary: Candidatar-se à monitoria
+      security: [{ cookieAuth: [] }]
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
+              required: [offeringId]
               properties:
-                disciplineId:
-                  type: string
-                  format: uuid
-              required: [disciplineId]
+                offeringId: { type: string, format: uuid }
       responses:
-        "201":
-          description: Inscrição criada
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Enrollment"
-        "400":
-          description: Violação de regra de negócio ou validação
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Não autenticado
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
+        "201": { description: Criado }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+
+  /enrollments/{id}/approve:
+    post:
+      summary: Aprovar candidatura
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200": { description: Aprovado }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /enrollments/{id}/reject:
+    post:
+      summary: Rejeitar candidatura
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200": { description: Rejeitado }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  ############################
+  # MONITOR ASSIGNMENTS
+  ############################
+  /monitor-assignments:
+    get:
+      summary: Listar monitorias
+      responses:
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  {
+                    schema: { $ref: "#/components/schemas/MonitorAssignment" },
+                  },
+              },
+          }
+        "404": { $ref: "#/components/responses/NotFound" }
+    get/{id}:
+      summary: Buscar monitoria
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  {
+                    schema: { $ref: "#/components/schemas/MonitorAssignment" },
+                  },
+              },
+          }
+        "404": { $ref: "#/components/responses/NotFound" }
+    post:
+      summary: Criar monitoria
+      security: [{ cookieAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [enrollmentId, startDate]
+              properties:
+                enrollmentId: { type: string, format: uuid }
+                startDate: { type: string, format: date }
+      responses:
+        "201": { description: Criado }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+  /monitor-assignments/{id}:
+    put:
+      summary: Atualizar monitoria
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [enrollmentId, startDate]
+              properties:
+                enrollmentId: { type: string, format: uuid }
+                startDate: { type: string, format: date }
+      responses:
+        "200": { description: OK }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+    delete:
+      summary: Remover monitoria
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204": { description: Removido }
+        "404": { $ref: "#/components/responses/NotFound" }
+  ############################
+  # ACTIVITIES
+  ############################
+  /activities:
+    get:
+      summary: Listar atividades
+      responses:
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  { schema: { $ref: "#/components/schemas/Activity" } },
+              },
+          }
+        "404": { $ref: "#/components/responses/NotFound" }
+    get/{id}:
+      summary: Buscar atividade
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          {
+            description: OK,
+            content:
+              {
+                application/json:
+                  { schema: { $ref: "#/components/schemas/Activity" } },
+              },
+          }
+        "404": { $ref: "#/components/responses/NotFound" }
+    post:
+      summary: Registrar atividade
+      security: [{ cookieAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [monitorAssignmentId, description, hours, date]
+              properties:
+                monitorAssignmentId: { type: string, format: uuid }
+                description: { type: string }
+                hours: { type: number }
+                date: { type: string, format: date }
+      responses:
+        "201": { description: Criado }
+  /activities/{id}:
+    put:
+      summary: Atualizar atividade
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [monitorAssignmentId, description, hours, date]
+              properties:
+                monitorAssignmentId: { type: string, format: uuid }
+                description: { type: string }
+                hours: { type: number }
+                date: { type: string, format: date }
+      responses:
+        "200": { description: OK }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+    delete:
+      summary: Remover atividade
+      security: [{ cookieAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204": { description: Removido }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /activities/{id}/approve:
+    post:
+      summary: Aprovar atividade
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200": { description: Aprovado }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
+  ############################
+  # CERTIFICATES
+  ############################
+  /certificates/{monitorAssignmentId}/issue:
+    post:
+      summary: Emitir certificado
+      security: [{ cookieAuth: [] }]
+      responses:
+        "201": { description: Emitido }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { $ref: "#/components/responses/Conflict" }
